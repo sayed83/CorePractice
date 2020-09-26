@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CorePractice.Models
 {
-    public class Modules
+    public class Module
     {
         [Key]
         public int ModuleId { get; set; }
@@ -36,7 +36,7 @@ namespace CorePractice.Models
         public int? SLNO { get; set; }
 
         public int ModuleId { get; set; }
-        public virtual Modules Modules { get; set; }
+        public virtual Module Modules { get; set; }
 
         public virtual ICollection<ModuleMenu> ModuleMenu { get; set; }
     }
@@ -59,7 +59,7 @@ namespace CorePractice.Models
 
 
         public int ModuleId { get; set; }
-        public virtual Modules Modules { get; set; }
+        public virtual Module Modules { get; set; }
         public int ModuleGroupId { get; set; }
         public virtual ModuleGroup ModuleGroup { get; set; }
         public int ImageCriteriaId { get; set; }
