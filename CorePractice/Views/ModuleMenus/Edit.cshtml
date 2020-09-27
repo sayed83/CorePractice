@@ -1,0 +1,104 @@
+﻿@model CorePractice.Models.ModuleMenu
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>ModuleMenu</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ModuleMenuId" />
+            <div class="form-group">
+                <label asp-for="ModuleMenuName" class="control-label"></label>
+                <input asp-for="ModuleMenuName" class="form-control" />
+                <span asp-validation-for="ModuleMenuName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModuleMenuCaption" class="control-label"></label>
+                <input asp-for="ModuleMenuCaption" class="form-control" />
+                <span asp-validation-for="ModuleMenuCaption" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModuleMenuImage" class="control-label"></label>
+                <input asp-for="ModuleMenuImage" class="form-control" />
+                <span asp-validation-for="ModuleMenuImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImagePath" class="control-label"></label>
+                <input asp-for="ImagePath" class="form-control" />
+                <span asp-validation-for="ImagePath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModuleImageExtension" class="control-label"></label>
+                <input asp-for="ModuleImageExtension" class="form-control" />
+                <span asp-validation-for="ModuleImageExtension" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModuleMenuController" class="control-label"></label>
+                <input asp-for="ModuleMenuController" class="form-control" />
+                <span asp-validation-for="ModuleMenuController" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModuleMenuLink" class="control-label"></label>
+                <input asp-for="ModuleMenuLink" class="form-control" />
+                <span asp-validation-for="ModuleMenuLink" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsInActive" class="control-label"></label>
+                <input asp-for="IsInActive" class="form-control" />
+                <span asp-validation-for="IsInActive" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsParent" class="control-label"></label>
+                <input asp-for="IsParent" class="form-control" />
+                <span asp-validation-for="IsParent" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="SLNO" class="control-label"></label>
+                <input asp-for="SLNO" class="form-control" />
+                <span asp-validation-for="SLNO" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModuleId" class="control-label"></label>
+                <select asp-for="ModuleId" class="form-control" asp-items="ViewBag.ModuleId"></select>
+                <span asp-validation-for="ModuleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModuleGroupId" class="control-label"></label>
+                <select asp-for="ModuleGroupId" class="form-control" asp-items="ViewBag.ModuleGroupId"></select>
+                <span asp-validation-for="ModuleGroupId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageCriteriaId" class="control-label"></label>
+                <select asp-for="ImageCriteriaId" class="form-control" asp-items="ViewBag.ImageCriteriaId"></select>
+                <span asp-validation-for="ImageCriteriaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParentId" class="control-label"></label>
+                <input asp-for="ParentId" class="form-control" />
+                <span asp-validation-for="ParentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

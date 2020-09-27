@@ -24,6 +24,7 @@ namespace CorePractice.Data
         public virtual DbSet<Cat_Section> Cat_Section { get; set; }
         public virtual DbSet<Cat_SubSection> Cat_SubSection { get; set; }
         public virtual DbSet<Cat_Designation> Cat_Designation { get; set; }
+        public DbSet<CorePractice.Models.ModuleMenu> ModuleMenu { get; set; }
 
         //public virtual DbSet<Cat_Religion> Cat_Religion { get; set; }
         //public virtual DbSet<Cat_BloodGroup> Cat_BloodGroup { get; set; }
