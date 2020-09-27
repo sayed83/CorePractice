@@ -53,7 +53,7 @@ namespace CorePractice.Models
         public string ModuleMenuController { get; set; }
         public string ModuleMenuLink { get; set; }
         public int IsInActive { get; set; }
-        public string IsParent { get; set; }
+        public int IsParent { get; set; }
         public bool Active { get; set; }
         public int? SLNO { get; set; }
 

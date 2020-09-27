@@ -266,38 +266,7 @@
 
 
 
-              function LoadModuleGroup() {
 
-                //alert('prdsearch');
-                  $("#ModuleGroupId").empty();
-                //$("#ProductDescription").val("=N/A=");
-                //$("#Qty").val(1);
-
-
-                    $.ajax({
-                        type: 'POST',
-                        url: '@Url.Action("GetModuleGroup", "ModuleMenus")',
-                        dataType: 'json',
-                        async: false,
-                        data: { id: $("#ModuleId").val() },
-                        success: function (data) {
-                            var s ='<option value="-1">Please Select Module Group</option>';
-                            //$.each(data, function (i, data) {
-                            //    $("#Product").append('<option value="'+ data.Value + '">'
-                            //        + data.Text + '</option>');
-                            //});
-                            for (var i = 0; i < data.length; i++) {
-                                s += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
-                            }
-                            $("#ModuleGroupId").html(s);
-                        },
-                        error: function (ex) {
-                            alert('Failed.' + ex);
-                        }
-
-                    });
-                    return false;
-                };
 
 
             $('#ModuleId').select2({})
@@ -311,11 +280,34 @@
                         alert('Please Select Module Information First.')
                     }
 
-                    console.log("select2:select")
+                    //console.log("select2:select")
                 });
 
 
+            function LoadModuleGroup() {
+                  $("#ModuleGroupId").empty();
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetModuleGroup", "ModuleMenus")',
+                        dataType: 'json',
+                        async: false,
+                        data: { id: $("#ModuleId").val() },
+                        success: function (data) {
+                            console.log(data);
+                            //alert(data);
+                            var s ='<option value="-1">Please Select Module Group</option>';
+                            for (var i = 0; i < data.length; i++) {
+                                s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
+                            }
+                            $("#ModuleGroupId").html(s);
+                        },
+                        error: function (ex) {
+                            alert('Failed.' + ex);
+                        }
 
+                    });
+                    return false;
+                };
 
             @*$('#ModuleId').change(function () {
                 //alert($('#ModuleId').val());
@@ -368,7 +360,7 @@
                         alert('Please Select Module Group Information First.')
                     }
 
-                    console.log("select2:select")
+                    //console.log("select2:select")
                 });
 
 
@@ -395,7 +387,7 @@
                             //        + data.Text + '</option>');
                             //});
                             for (var i = 0; i < data.length; i++) {
-                                s += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                                s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
                             }
                             $("#ParentId").html(s);
                         },

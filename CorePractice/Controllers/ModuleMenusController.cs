@@ -54,15 +54,15 @@ namespace CorePractice.Controllers
         public IActionResult Create()
         {
             ViewBag.Title = "Create";
-            ViewData["ImageCriteriaId"] = new SelectList(_context.ImageCriterias, "ImageCriteriaId", "ImageCriteriaId");
-            ViewData["ModuleGroupId"] = new SelectList(_context.ModuleGroups, "ModuleGroupId", "ModuleGroupId");
-            ViewData["ModuleId"] = new SelectList(_context.Modules, "ModuleId", "ModuleId");
+            ViewData["ImageCriteriaId"] = new SelectList(_context.ImageCriterias, "ImageCriteriaId", "ImageCriteriaCaption");
+            ViewData["ModuleGroupId"] = new SelectList(_context.ModuleGroups, "ModuleGroupId", "ModuleGroupName");
+            ViewData["ModuleId"] = new SelectList(_context.Modules, "ModuleId", "ModuleName");
             return View();
         }
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ModuleMenuId,ModuleMenuName,ModuleMenuCaption,ModuleMenuImage,ImagePath,ModuleImageExtension,ModuleMenuController,ModuleMenuLink,IsInActive,IsParent,Active,SLNO,ModuleId,ModuleGroupId,ImageCriteriaId,ParentId")] ModuleMenu moduleMenu, string imageDatatest)
+        public async Task<IActionResult> Create(ModuleMenu moduleMenu, string imageDatatest)
         {
             var errors = ModelState.Where(x => x.Value.Errors.Any())
            .Select(x => new { x.Key, x.Value.Errors });
@@ -90,9 +90,9 @@ namespace CorePractice.Controllers
                 }
                     
             }
-            ViewData["ImageCriteriaId"] = new SelectList(_context.ImageCriterias, "ImageCriteriaId", "ImageCriteriaId", moduleMenu.ImageCriteriaId);
-            ViewData["ModuleGroupId"] = new SelectList(_context.ModuleGroups, "ModuleGroupId", "ModuleGroupId", moduleMenu.ModuleGroupId);
-            ViewData["ModuleId"] = new SelectList(_context.Modules, "ModuleId", "ModuleId", moduleMenu.ModuleId);
+            ViewData["ImageCriteriaId"] = new SelectList(_context.ImageCriterias, "ImageCriteriaId", "ImageCriteriaCaption", moduleMenu.ImageCriteriaId);
+            ViewData["ModuleGroupId"] = new SelectList(_context.ModuleGroups, "ModuleGroupId", "ModuleGroupName", moduleMenu.ModuleGroupId);
+            ViewData["ModuleId"] = new SelectList(_context.Modules, "ModuleId", "ModuleName", moduleMenu.ModuleId);
             return View(moduleMenu);
         }
 
@@ -150,9 +150,9 @@ namespace CorePractice.Controllers
                 return NotFound();
             }
             ViewBag.Title = "Edit";
-            ViewData["ImageCriteriaId"] = new SelectList(_context.ImageCriterias, "ImageCriteriaId", "ImageCriteriaId", moduleMenu.ImageCriteriaId);
-            ViewData["ModuleGroupId"] = new SelectList(_context.ModuleGroups, "ModuleGroupId", "ModuleGroupId", moduleMenu.ModuleGroupId);
-            ViewData["ModuleId"] = new SelectList(_context.Modules, "ModuleId", "ModuleId", moduleMenu.ModuleId);
+            ViewData["ImageCriteriaId"] = new SelectList(_context.ImageCriterias, "ImageCriteriaId", "ImageCriteriaCaption", moduleMenu.ImageCriteriaId);
+            ViewData["ModuleGroupId"] = new SelectList(_context.ModuleGroups, "ModuleGroupId", "ModuleGroupName", moduleMenu.ModuleGroupId);
+            ViewData["ModuleId"] = new SelectList(_context.Modules, "ModuleId", "ModuleName", moduleMenu.ModuleId);
             ViewBag.ParentId = new SelectList(_context.ModuleMenu.Where(x => x.ParentId == moduleMenu.ParentId), "ModuleMenuId", "ModuleMenuName", moduleMenu.ParentId);
             return View("Create",moduleMenu);
         }
@@ -189,9 +189,9 @@ namespace CorePractice.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ImageCriteriaId"] = new SelectList(_context.ImageCriterias, "ImageCriteriaId", "ImageCriteriaId", moduleMenu.ImageCriteriaId);
-            ViewData["ModuleGroupId"] = new SelectList(_context.ModuleGroups, "ModuleGroupId", "ModuleGroupId", moduleMenu.ModuleGroupId);
-            ViewData["ModuleId"] = new SelectList(_context.Modules, "ModuleId", "ModuleId", moduleMenu.ModuleId);
+            ViewData["ImageCriteriaId"] = new SelectList(_context.ImageCriterias, "ImageCriteriaId", "ImageCriteriaCaption", moduleMenu.ImageCriteriaId);
+            ViewData["ModuleGroupId"] = new SelectList(_context.ModuleGroups, "ModuleGroupId", "ModuleGroupName", moduleMenu.ModuleGroupId);
+            ViewData["ModuleId"] = new SelectList(_context.Modules, "ModuleId", "ModuleName", moduleMenu.ModuleId);
             return View(moduleMenu);
         }
 
@@ -233,6 +233,38 @@ namespace CorePractice.Controllers
             {
                 return Json(new { Success = 0, ex = ex.Message.ToString() });
             }            
+        }
+
+        public JsonResult GetModuleGroup(int id)
+        {
+            List<ModuleGroup> ModuleGroupList = _context.ModuleGroups.Where(m => m.ModuleId == id).ToList();
+
+            List<SelectListItem> ListOfModuleGroup = new List<SelectListItem>();
+
+            //licities.Add(new SelectListItem { Text = "--Select State--", Value = "0" });
+            if (ModuleGroupList != null)
+            {
+                foreach (ModuleGroup x in ModuleGroupList)
+                {
+                    ListOfModuleGroup.Add(new SelectListItem { Text = x.ModuleGroupName, Value = x.ModuleGroupId.ToString() });
+                }
+            }
+            return Json(new SelectList(ListOfModuleGroup, "Value", "Text"));
+        }
+
+        public JsonResult GetModuleMenu(int id)
+        {
+            List<ModuleMenu> ParentMenuList = _context.ModuleMenu.Where(m => m.ModuleGroupId == id && m.IsParent == 1).ToList();
+
+            List<SelectListItem> listparentmenu = new List<SelectListItem>();
+            if (ParentMenuList != null)
+            {
+                foreach (ModuleMenu x in ParentMenuList)
+                {
+                    listparentmenu.Add(new SelectListItem { Text = x.ModuleMenuName, Value = x.ModuleMenuId.ToString() });
+                }
+            }
+            return Json(new SelectList(listparentmenu, "Value", "Text"));
         }
 
         private bool ModuleMenuExists(int id)
