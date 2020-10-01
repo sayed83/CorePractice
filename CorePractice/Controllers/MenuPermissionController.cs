@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CorePractice.Data;
 using CorePractice.Models;
+using CorePractice.Component;
+using System.Data.SqlClient;
 
 namespace CorePractice.Controllers
 {
@@ -19,10 +21,43 @@ namespace CorePractice.Controllers
             _context = context;
         }
 
+        
+
         // GET: MenuPermission
-        public async Task<IActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await _context.MenuPermission_Masters.ToListAsync());
+            var query = "";
+            query = $"Exec prcgetAspnetUserList 'MenuPermission'";
+            SqlParameter[] sqlParameter1 = new SqlParameter[1];
+            sqlParameter1[0] = new SqlParameter("@Criteria", "MenuPermission");
+            List<MenuPermission> menuPermission = Helper.ExecProcMapTList<MenuPermission>("prcgetAspnetUserList", sqlParameter1).ToList();
+            var resultUsers = new List<MenuPermission>();
+            foreach (var menu in menuPermission)
+            {
+                var resultUser = new MenuPermission();
+                resultUser.UserId = menu.UserId;
+                resultUser.useridPermission = menu.useridPermission;
+                resultUser.UserName = menu.UserName;
+                resultUser.CompanyName = menu.CompanyName;
+                resultUser.comid = menu.comid;
+                resultUser.Email = menu.UserName;
+                resultUser.MenuPermissionId = menu.MenuPermissionId;
+                resultUsers.Add(resultUser);
+            }
+            ViewBag.MenuPermission = resultUsers;
+            return View();
+        }
+
+        public class MenuPermission
+        {
+            public int MenuPermissionId { get; set; }
+            public string UserId { get; set; }
+            public string UserName { get; set; }
+            public string Email { get; set; }
+            public string comid { get; set; }
+            public string CompanyName { get; set; }
+            public string useridPermission { get; set; }
+
         }
 
         // GET: MenuPermission/Details/5
@@ -32,20 +67,19 @@ namespace CorePractice.Controllers
             {
                 return NotFound();
             }
-
             var menuPermission_Master = await _context.MenuPermission_Masters
                 .FirstOrDefaultAsync(m => m.MenuPermissionMasterId == id);
             if (menuPermission_Master == null)
             {
                 return NotFound();
             }
-
             return View(menuPermission_Master);
         }
 
         // GET: MenuPermission/Create
-        public IActionResult Create()
+        public IActionResult Create(string comid, string UserId,int? MenuPermissionId, int? isDelete)
         {
+
             return View();
         }
 
@@ -53,7 +87,7 @@ namespace CorePractice.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MenuPermissionMasterId,useridPermission,comid,userid,useridUpdate,Active,AddedBy,AddedDate")] MenuPermission_Master menuPermission_Master)
         {
             if (ModelState.IsValid)
@@ -151,3 +185,4 @@ namespace CorePractice.Controllers
         }
     }
 }
+

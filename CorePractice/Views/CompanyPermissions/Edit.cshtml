@@ -1,0 +1,49 @@
+﻿@model CorePractice.Models.CompanyPermission
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>CompanyPermission</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CompanyPermissionId" />
+            <div class="form-group">
+                <label asp-for="ComId" class="control-label"></label>
+                <input asp-for="ComId" class="form-control" />
+                <span asp-validation-for="ComId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="isDefault" class="control-label"></label>
+                <input asp-for="isDefault" class="form-control" />
+                <span asp-validation-for="isDefault" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="isChecked" class="control-label"></label>
+                <input asp-for="isChecked" class="form-control" />
+                <span asp-validation-for="isChecked" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

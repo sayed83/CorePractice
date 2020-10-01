@@ -56,20 +56,16 @@ namespace CorePractice.Models
         public int IsParent { get; set; }
         public bool Active { get; set; }
         public int? SLNO { get; set; }
-
-
         public int ModuleId { get; set; }
         public virtual Module Modules { get; set; }
         public int ModuleGroupId { get; set; }
         public virtual ModuleGroup ModuleGroup { get; set; }
         public int ImageCriteriaId { get; set; }
         public virtual ImageCriteria ImageCriteria { get; set; }
-
         [ForeignKey("ModuleMenuId")]
         public int ParentId { get; set; }
         public virtual ModuleMenu ParentModuleMenu { get; set; }
         public virtual ICollection<ModuleMenu> ModuleMenuChildren { get; set; }
-
     }
 
     public class ImageCriteria
@@ -90,7 +86,6 @@ namespace CorePractice.Models
         public bool Active { get; set; }
         public string AddedBy { get; set; }
         public DateTime? AddedDate { get; set; }
-
         public virtual ICollection<MenuPermission_Details> MenuPermission_Details { get; set; }
     }
 
@@ -105,13 +100,46 @@ namespace CorePractice.Models
         public bool IsReport { get; set; }
         public DateTime? DateAdded { get; set; }
         public DateTime? DateUpdated { get; set; }
-
         public int MenuPermissionMasterId { get; set; }
         public virtual MenuPermission_Master MenuPermission_Master { get; set; }
         public int ModuleMenuId { get; set; }
         public virtual ModuleMenu ModuleMenu { get; set; }
-
     }
 
-    
+    public class CompanyPermissionVM
+    {
+        [Key, Column(Order = 0)]
+        public int isChecked { get; set; }
+        [Column(Order = 1)]
+        public int CompanyPermissionId { get; set; }
+        [Column(Order = 2)]
+        public string UserId { get; set; }
+        [Column(Order = 3)]
+        public Guid ComId { get; set; }
+        [Column(Order = 4)]
+        public string CompanyName { get; set; }
+        [Column(Order = 5)]
+        public int isDefault { get; set; }
+    }
+
+    public class CompanyPermission
+    {
+        public int CompanyPermissionId { get; set; }
+
+        [Required]
+        [StringLength(128)]
+        public Guid ComId { get; set; }
+        public int isDefault { get; set; }
+        public int isChecked { get; set; }
+        [Required]
+        [StringLength(128)]
+        public string UserId { get; set; } = "";
+    }
+    public class UserModel
+    {
+        public int Id { get; set; }
+        public string UserId { get; set; }
+        public string UserName { get; set; }
+    }
+
 }

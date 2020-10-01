@@ -1,0 +1,53 @@
+﻿@model IEnumerable<CorePractice.Models.CompanyPermission>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ComId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isDefault)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isChecked)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isDefault)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isChecked)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CompanyPermissionId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CompanyPermissionId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CompanyPermissionId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

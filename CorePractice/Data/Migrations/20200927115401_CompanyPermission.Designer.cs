@@ -4,40 +4,22 @@ using CorePractice.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CorePractice.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200927115401_CompanyPermission")]
+    partial class CompanyPermission
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("CorePractice.Models.BusinessType", b =>
-                {
-                    b.Property<int>("BusinessTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("BusinessTypeCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("BusinessTypeId");
-
-                    b.ToTable("BusinessType");
-                });
 
             modelBuilder.Entity("CorePractice.Models.Cat_Department", b =>
                 {
@@ -315,183 +297,6 @@ namespace CorePractice.Data.Migrations
                     b.HasIndex("SectId");
 
                     b.ToTable("Cat_SubSection");
-                });
-
-            modelBuilder.Entity("CorePractice.Models.Company", b =>
-                {
-                    b.Property<int>("ComId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Addvertise")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AppKey")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
-
-                    b.Property<int?>("BaseComId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BusinessTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<byte[]>("ComImageHeader")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("ComLogo")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("CompanyAddressBangla")
-                        .HasColumnType("nvarchar(300)")
-                        .HasMaxLength(300);
-
-                    b.Property<string>("CompanyCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
-
-                    b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(80)")
-                        .HasMaxLength(80);
-
-                    b.Property<string>("CompanyNameBangla")
-                        .HasColumnType("nvarchar(80)")
-                        .HasMaxLength(80);
-
-                    b.Property<string>("CompanySecretCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
-
-                    b.Property<string>("CompanyShortName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
-
-                    b.Property<string>("ContDesig")
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
-
-                    b.Property<string>("ContPerson")
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
-
-                    b.Property<int>("CountryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DecimalField")
-                        .HasColumnType("int");
-
-                    b.Property<string>("HeaderFileExtension")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HeaderImagePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsGroup")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsInActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsService")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsShowCurrencySymbol")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LogoFileExtension")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LogoImagePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PrimaryAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(300)")
-                        .HasMaxLength(300);
-
-                    b.Property<string>("SecoundaryAddress")
-                        .HasColumnType("nvarchar(300)")
-                        .HasMaxLength(300);
-
-                    b.Property<string>("comEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
-
-                    b.Property<string>("comFax")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
-
-                    b.Property<string>("comPhone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
-
-                    b.Property<string>("comPhone2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
-
-                    b.Property<string>("comWeb")
-                        .HasColumnType("nvarchar(80)")
-                        .HasMaxLength(80);
-
-                    b.Property<bool>("isBarcode")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isChequeDetails")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isCorporate")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isIMEISale")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isMultiCurrency")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isMultiDebitCredit")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isMultipleWh")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isOldDue")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isPOSprint")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isProduct")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isRestaurantSale")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isShoeSale")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isShortcutSale")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isTouch")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isVoucherDistributionEntry")
-                        .HasColumnType("bit");
-
-                    b.HasKey("ComId");
-
-                    b.HasIndex("BusinessTypeId");
-
-                    b.ToTable("Companys");
                 });
 
             modelBuilder.Entity("CorePractice.Models.CompanyPermission", b =>
@@ -985,15 +790,6 @@ namespace CorePractice.Data.Migrations
                     b.HasOne("CorePractice.Models.Cat_Section", "Sect")
                         .WithMany("Cat_SubSection")
                         .HasForeignKey("SectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CorePractice.Models.Company", b =>
-                {
-                    b.HasOne("CorePractice.Models.BusinessType", "BusinessTypeCompany")
-                        .WithMany()
-                        .HasForeignKey("BusinessTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

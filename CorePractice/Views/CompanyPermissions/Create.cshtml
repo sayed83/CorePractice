@@ -1,0 +1,343 @@
+﻿@*@model GTERP.Models.CompanyPermission*@
+@model CorePractice.Models.CompanyPermissionVM
+@*<script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap4.js"></script>
+    <link href="~/Content/DataTables/css/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/css/select2.min.css" rel="stylesheet" />
+    <script src="~/Scripts/select2.min.js"></script>*@
+
+
+
+
+
+
+@using (Html.BeginForm("Create", "companyPermissions", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="container" style="max-width: 700px;">
+        <div class="py-7 text-center">
+            @*<img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">*@
+            <h2>Company Permission</h2>
+            <p class="lead"></p>
+        </div>
+        <div id="modalbodyfahad" class="row card p-4">
+            <div class="col-md-12 order-md-1">
+                @*@Html.AntiForgeryToken()*@
+                @*<h4 class="mb-3">Company Information</h4>
+                    <hr />*@
+                @Html.ValidationSummary("", new { @class = "text-error" })
+                @*<div class="form-group">
+                        @Html.LabelFor(m => m.userid, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.userid, new { @class = "form-control" })
+                        </div>
+                    </div>*@
+
+
+
+
+
+                <div class="row">
+
+                    <div class="card p-4">
+
+                        @*<legend>Add Item</legend>*@
+
+                        <br />
+                        <div class="table table-responsive text-nowrap">
+                            <table id="tblterms" class="tblterms display nowrap table-striped table-hover" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Check</th>
+                                        <th>CompnaypermissionId</th>
+                                        <th>UserId</th>
+                                        <th>ComId</th>
+                                        <th>Company Name</th>
+                                        <th>Default</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="txtMultTerms">
+                                        <td>
+                                            @Html.DisplayFor(i => Model.isChecked)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(i => Model.CompanyPermissionId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(i => Model.UserId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(i => Model.ComId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(i => Model.CompanyName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(i => Model.isDefault)
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="table text-nowrap">
+                            <table class="table table-condensed">
+                                <tbody>
+                                    <tr class="row">
+                                        <td class="col col-md-12">
+                                            <span>
+                                                <select id="UserList"
+                                                        class="form-control form-control-sm"
+                                                        asp-items="@ViewBag.UserId ">
+                                                </select>
+                                            </span>
+                                        </td>
+                                        <td class="col-lg-2 col-md-6 col-sm-6">
+                                            <button type="button" onclick="TermsLoad()" class="btn btn-success btn-block">Load</button>
+                                        </td>
+                                        <td class="col-lg-2 col-md-6 col-sm-6">
+                                            <button id="btnupdate" onclick="Sales_save()" class="btn btn-primary btn-block" type="button">Update</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+@*@section Scripts {
+        @sc.Render("~/bundles/jqueryval")
+    }*@
+
+@section scripts{
+
+    <script type="text/javascript">
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+    function Sales_save() {
+        //var CompanyPermissions = [];
+        // Step 1: Read View Data and Create JSON Object
+        var CompanyPermissions = { "isChecked": 0, "CompanyPermissionId": 0, "UserId": "", "ComId": "", "CompanyName": "", "isDefault": 0 };
+        ////sales subs data
+        var oTable = $('#tblterms').dataTable().fnGetData();
+            if ($('#chkboxChecked').is(":checked")) {
+                CompanyPermissions.isChecked = 1;
+            }
+            else {
+                CompanyPermissions.isChecked = 0;
+            }
+        CompanyPermissions.CompanyPermissionId = oTable[0][1];
+        CompanyPermissions.UserId = oTable[0][2];
+        CompanyPermissions.ComId = oTable[0][3];
+        CompanyPermissions.CompanyName = oTable[0][4];
+            if ($('#chkboxDefault').is(":checked")) {
+                CompanyPermissions.isDefault = 1;
+            }
+            else {
+                CompanyPermissions.isDefault = 0;
+            }
+        // Step 1: Ends Here
+        var antiForgeryToken = $("input[name=GTR_ANTIFORZERY]").val();
+        var strfy = JSON.stringify({ strfy: CompanyPermissions });
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Create", "CompanyPermissions")',
+            dataType: 'json',
+            headers: { "X-CSRF-TOKEN-GTR_ANTIFORZERY": antiForgeryToken },
+            data: { companyPermission:strfy },
+            success: function (data) {
+                console.log(data);
+                if (data.Success == 1) {
+                    alert('data update success');
+                }
+            },
+            error: function (ex) {
+                toastr.error("Sorry, an error occured . . . .");
+            }
+        });
+    }
+        $(document).ready(function () {
+            $("#UserList").select2();
+            $("#btnupdate").hide();
+            $("#UserList").change(function () {
+                TermsLoad();
+            })
+            $('#tblterms').dataTable({
+                "aoColumns": [
+                    { "name": "isChecked", "sClass": "", "visible": true },
+                    { "name": "CompanyPermissionId", "sClass": "CompanyPermissionId", "visible": false },
+                    { "name": "UserId", "sClass": "UserId", "visible": false },
+                    { "name": "ComId", "sClass": "ComId", "visible": false },
+                    { "name": "CompanyName", "sClass": "CompanyName", "visible": true },
+                    { "name": "isDefault", "sClass": "", "visible": true }
+                ],
+                columnDefs: [
+                    {
+                        'render': function (data) {
+
+                                return '<input type="checkbox" id="chkboxChecked" value=' + data + ' class="isChecked" >';
+
+
+                        }, targets: 0
+                    },
+                    {
+                        'render': function (data, type, row) {
+
+                            return '<input type="checkbox" id="chkboxDefault" value=' + data + ' class="isDefault">';
+                        },
+                        'targets': 5
+                    }],
+                "dom": 'T<"clear">lfrtip',
+                "tableTools": {
+                    "sRowSelector": "td:not(:first-child)"
+                },
+                select: {
+                    style: 'os',
+                    selector: 'td:first-child'
+                },
+                "bLengthChange": false,
+                "bFilter": false,
+                "bSort": false,
+                "bInfo": false,
+                "paging": false
+            })
+            function TermsLoad() {
+                var table = $('#tblterms').DataTable();
+                table
+                    .clear()
+                    .draw();
+                table.row($(this).parents('tr')).remove().draw();
+                $("#btnupdate").show();
+                var UserId = $("#UserList").val();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("getUserCompany", "CompanyPermissions")',
+                    dataType: 'json',
+                    async: false,
+                    data: { UserId: UserId },
+                    success: function (data) {
+                        console.log(data);
+                        table.clear();
+                        $('#tblterms').dataTable().fnAddData([data.isChecked, data.companyPermissionId, UserId, data.comId, data.companyName,  data.isDefault]);
+                        table = $('#tblterms').DataTable();
+                        table.draw();
+                        $(function () {
+                            $('.isChecked').each(function (e) {
+                                //alert($(this).val());
+                                if ($(this).val() == '1') {
+                                    $(this).attr("checked", "checked");
+                                    //alert('Checked');
+                                }
+                            });
+
+                            //alert('isDefault');
+
+                            $('.isDefault').each(function (e) {
+
+                                //alert($(this).val());
+                                if ($(this).val() == '1') {
+                                    $(this).attr("checked", "checked");
+                                    // alert('Checked');
+                                }
+                            });
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed.' + ex);
+                    }
+                });
+            }
+            TermsLoad();
+        });
+
+
+    </script>
+}
+@*<div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ComId" class="control-label"></label>
+                    <select asp-for="ComId"
+                            class="form-control"
+                            asp-items="@ViewBag.ComId ">
+                    </select>
+                    <span asp-validation-for="ComId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="isDefault" class="control-label"></label>
+                    <input asp-for="isDefault" class="form-control" />
+                    <span asp-validation-for="isDefault" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="isChecked" class="control-label"></label>
+                    <input asp-for="isChecked" class="form-control" />
+                    <span asp-validation-for="isChecked" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserId" class="control-label"></label>
+                    <select asp-for="UserId"
+                            class="form-control"
+                            asp-items="@ViewBag.UserId ">
+                    </select>
+                </div>
+                <div class="form-group">
+
+                    <button type="button" onclick="TermsLoad()" class="btn btn-success btn-block">Load</button>
+
+
+                    <button id="btnupdate" class="btn btn-primary btn-block" type="button" onclick="Sales_save()">Update</button>
+
+                </div>
+            </form>
+        </div>
+    </div>*@
+
+
+
+@*<div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ComId" class="control-label"></label>
+                    <input asp-for="ComId" class="form-control" />
+                    <span asp-validation-for="ComId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="isDefault" class="control-label"></label>
+                    <input asp-for="isDefault" class="form-control" />
+                    <span asp-validation-for="isDefault" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="isChecked" class="control-label"></label>
+                    <input asp-for="isChecked" class="form-control" />
+                    <span asp-validation-for="isChecked" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserId" class="control-label"></label>
+                    <input asp-for="UserId" class="form-control" />
+                    <span asp-validation-for="UserId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }*@

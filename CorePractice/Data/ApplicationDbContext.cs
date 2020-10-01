@@ -14,17 +14,22 @@ namespace CorePractice.Data
         {
         }
 
+        
         public virtual DbSet<Module> Modules { get; set; }
         public virtual DbSet<ModuleGroup> ModuleGroups { get; set; }
+        public DbSet<CorePractice.Models.ModuleMenu> ModuleMenu { get; set; }
         public virtual DbSet<ImageCriteria> ImageCriterias { get; set; }
+        public virtual DbSet<CompanyPermission> CompanyPermissions { get; set; }
         public virtual DbSet<MenuPermission_Master> MenuPermission_Masters { get; set; }
         public virtual DbSet<MenuPermission_Details> MenuPermission_Details { get; set; }
 
+
+        public virtual DbSet<Company> Companys { get; set; }
         public virtual DbSet<Cat_Department> Cat_Department { get; set; }
         public virtual DbSet<Cat_Section> Cat_Section { get; set; }
         public virtual DbSet<Cat_SubSection> Cat_SubSection { get; set; }
         public virtual DbSet<Cat_Designation> Cat_Designation { get; set; }
-        public DbSet<CorePractice.Models.ModuleMenu> ModuleMenu { get; set; }
+
 
         //public virtual DbSet<Cat_Religion> Cat_Religion { get; set; }
         //public virtual DbSet<Cat_BloodGroup> Cat_BloodGroup { get; set; }
